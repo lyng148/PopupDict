@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "PopupDict - Japanese to Vietnamese Vietnamese Dictionary",
+  "version": "1.0",
+  "description": "Japanese-Vietnamese dictionary and translation tool with Soft Brutalism style.",
+  "permissions": ["tts"],
+  "host_permissions": [
+    "https://jpdictionary.com/*",
+    "https://translate.googleapis.com/*"
+  ],
+  "action": {
+    "default_title": "PopupDict"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
