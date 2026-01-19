@@ -1,15 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "PopupDict - Japanese to Vietnamese Vietnamese Dictionary",
+  "name": "PopupDict - Japanese to Vietnamese Dictionary",
   "version": "1.0",
-  "description": "Japanese-Vietnamese dictionary and translation tool with Soft Brutalism style.",
+  "description": "Japanese-Vietnamese dictionary and translation tool.",
   "permissions": ["tts"],
   "host_permissions": [
     "https://jpdictionary.com/*",
     "https://translate.googleapis.com/*"
   ],
+  "icons": {
+    "16": "logo.png",
+    "32": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
   "action": {
-    "default_title": "PopupDict"
+    "default_title": "PopupDict",
+    "default_icon": "logo.png"
   },
   "content_scripts": [
     {

@@ -1,7 +1,6 @@
 (function() {
     'use strict';
 
-    // --- HTML CẤU TRÚC POPUP ---
     const popup = document.createElement('div');
     popup.id = 'tm-dict-popup';
     popup.innerHTML = `
@@ -23,12 +22,10 @@
     const tabs = popup.querySelectorAll('.tm-dict-tab');
     let currentText = '';
 
-    // --- LOGIC ---
     const closePopup = () => { popup.style.display = 'none'; };
     popup.querySelector('.tm-dict-close').onclick = closePopup;
     popup.onmouseup = (e) => e.stopPropagation();
 
-    // Chuyển Tab
     tabs.forEach(tab => {
         tab.onclick = () => {
             tabs.forEach(t => t.classList.remove('active'));
@@ -44,7 +41,6 @@
         };
     });
 
-    // Phát âm
     speakBtn.onclick = () => {
         if (!currentText) return;
         const u = new SpeechSynthesisUtterance(currentText);
@@ -52,7 +48,6 @@
         window.speechSynthesis.speak(u);
     };
 
-    // --- 1. API TRA TỪ (Dictionary) ---
     function searchDictionaryAPI(text, type) {
         popupBody.innerHTML = '<div class="tm-loading">ĐANG TẢI TỪ ĐIỂN...</div>';
         const url = type === 'word' ? 'https://jpdictionary.com/f/w' : 'https://jpdictionary.com/f/k';
@@ -77,9 +72,8 @@
         });
     }
 
-    // --- 2. API DỊCH CÂU (Google Translate) ---
     function translateAPI(text) {
-        popupBody.innerHTML = '<div class="tm-loading">ĐANG DỊCH GOOGLE...</div>';
+        popupBody.innerHTML = '<div class="tm-loading">ĐANG DỊCH...</div>';
         const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=vi&dt=t&q=${encodeURIComponent(text)}`;
 
         chrome.runtime.sendMessage({
@@ -105,7 +99,6 @@
         });
     }
 
-    // --- RENDER UI: TỪ ĐIỂN ---
     function renderDictUI(data, type, query) {
         let html = '';
         if (type === 'word') {
@@ -140,7 +133,6 @@
         popupBody.innerHTML = html;
     }
 
-    // --- RENDER UI: DỊCH CÂU ---
     function renderTransUI(translated, original) {
         if (!translated) {
             popupBody.innerHTML = `<div class="tm-loading">KHÔNG THỂ DỊCH</div>`; return;
@@ -155,7 +147,6 @@
         popupBody.innerHTML = html;
     }
 
-    // --- SỰ KIỆN CHUỘT ---
     const jpRegex = /[\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf]/;
     document.addEventListener('mouseup', function(e) {
         if (popup.contains(e.target)) return;
@@ -175,7 +166,6 @@
             popup.style.left = `${left}px`;
             popup.style.display = 'block';
 
-            // Mặc định vẫn là tab Từ vựng
             tabs.forEach(t => t.classList.remove('active'));
             tabs[0].classList.add('active');
             searchDictionaryAPI(text, 'word');
